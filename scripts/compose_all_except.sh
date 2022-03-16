@@ -19,4 +19,4 @@ do
 	gawk -i inplace -v RS="" "{gsub(/$regex/, \"\")}1" $script_dir/script_temp/docker-compose.yaml
 done
 
-docker-compose -f $script_dir/script_temp/docker-compose.yaml up
+docker-compose -f $script_dir/script_temp/docker-compose.yaml up --remove-orphans

@@ -1,10 +1,22 @@
 version: '3.9'
+volumes:
+  user_service_db:
 services:
   nginx:
     image: nginx
     network_mode: host
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+  user_db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=some_user
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - user_service_db:/data/db
 
   # game_server start
   game_server:
@@ -23,3 +35,9 @@ services:
     image: project_deflector/matchmaking_server:1.0
     network_mode: host
   # matchmaking_server end
+
+  # user_server start
+  user_server:
+    image: project_deflector/user_server:1.0
+    network_mode: host
+  # user_server end
